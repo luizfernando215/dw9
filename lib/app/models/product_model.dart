@@ -8,7 +8,13 @@ class ProductModel {
   final double price;
   final String image;
 
-  ProductModel(this.id, this.name, this.description, this.price, this.image);
+  ProductModel({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.image,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -22,11 +28,11 @@ class ProductModel {
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-      map['id'] ?? map['id'] as int,
-      map['name'] ?? map['name'] as String,
-      map['description'] ?? map['description'] as String,
-      map['price'] ?? map['price'] as double,
-      map['image'] ?? map['image'] as String,
+      id: map['id'] ?? map['id'] as int,
+      name: map['name'] ?? map['name'] as String,
+      description: map['description'] ?? map['description'] as String,
+      price: map['price'] ?? map['price'] as double,
+      image: map['image'] ?? map['image'] as String,
     );
   }
 

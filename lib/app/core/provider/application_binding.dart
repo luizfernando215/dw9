@@ -13,6 +13,7 @@ class ApplicationBinding extends StatelessWidget {
       providers: [
         Provider(create: ((context) => CustomDio())),
       ],
+      child: child,
     );
   }
 }
