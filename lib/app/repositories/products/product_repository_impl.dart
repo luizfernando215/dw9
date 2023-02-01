@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:dw9_delivery_app/app/core/exceptions/repository_exception.dart';
 import 'package:dw9_delivery_app/app/core/rest_client/custom_dio.dart';
 import 'package:dw9_delivery_app/app/models/product_model.dart';
 import 'package:dw9_delivery_app/app/repositories/products/product_repository.dart';
@@ -8,7 +9,7 @@ import 'package:dw9_delivery_app/app/repositories/products/product_repository.da
 class ProductRepositoryImpl implements ProductRepository {
   final CustomDio dio;
 
-  ProductRepositoryImpl(this.dio);
+  ProductRepositoryImpl({required this.dio});
 
   @override
   Future<List<ProductModel>> findAllProducts() async {
