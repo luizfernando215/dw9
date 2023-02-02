@@ -23,4 +23,8 @@ class HomeController extends Cubit<HomeState> {
       ));
     }
   }
+
+  void addOrUpdateBag(Object orderProduct) {
+    final shoppingBag = state.shoppingBag;
+  }
 }
