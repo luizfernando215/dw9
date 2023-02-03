@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dw9_delivery_app/app/dto/order_product_dto.dart';
 import 'package:dw9_delivery_app/app/pages/home/home_state.dart';
 import 'package:dw9_delivery_app/app/repositories/products/product_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +25,19 @@ class HomeController extends Cubit<HomeState> {
     }
   }
 
-  void addOrUpdateBag(Object orderProduct) {
-    final shoppingBag = state.shoppingBag;
+  void addOrUpdateBag(OrderProductDto orderProduct) {
+    final shoppingBag = [...state.shoppingBag];
+    final orderIndex =
+        shoppingBag.indexWhere((order) => order.product == orderProduct.product); //retorna -1 se diferente
+
+    if (orderIndex > -1) {
+      if (orderProduct.amount == 0) {
+        shoppingBag.removeAt(orderIndex);
+      } else {
+        shoppingBag[orderIndex] = orderProduct;
+      }
+    } else {
+      shoppingBag.add(orderProduct);
+    }
   }
 }

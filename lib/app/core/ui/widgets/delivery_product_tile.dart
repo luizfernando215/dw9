@@ -1,9 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:js';
-
 import 'package:dw9_delivery_app/app/core/extensions/formatter_extension.dart';
 import 'package:dw9_delivery_app/app/core/ui/styles/colors_app.dart';
 import 'package:dw9_delivery_app/app/core/ui/styles/text_styles.dart';
+import 'package:dw9_delivery_app/app/dto/order_product_dto.dart';
 import 'package:dw9_delivery_app/app/pages/home/home_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -12,10 +11,12 @@ import 'package:provider/provider.dart';
 
 class DeliveryProductTile extends StatelessWidget {
   final ProductModel product;
+  final OrderProductDto? orderProduct;
 
   const DeliveryProductTile({
     Key? key,
     required this.product,
+    required this.orderProduct,
   }) : super(key: key);
 
   @override
@@ -23,10 +24,16 @@ class DeliveryProductTile extends StatelessWidget {
     return InkWell(
       onTap: () async {
         final controller = context.read<HomeController>();
-        final orderProduct = await Navigator.of(context).pushNamed('/productDetail', arguments: {'product': product});
+        final orderProductResult = await Navigator.of(context).pushNamed(
+          '/productDetail',
+          arguments: {
+            'product': product,
+            'orderProduct': orderProduct,
+          },
+        );
 
-        if (orderProduct != null) {
-          controller.addOrUpdateBag(orderProduct);
+        if (orderProductResult != null) {
+          controller.addOrUpdateBag(orderProductResult as OrderProductDto);
         }
       },
       child: Padding(
