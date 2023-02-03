@@ -14,7 +14,6 @@ class HomeController extends Cubit<HomeState> {
 
     try {
       final products = await _productRepository.findAllProducts();
-      //throw Exception();
       emit(state.copyWith(status: HomeStateStatus.loaded, products: products));
     } catch (e, s) {
       log('Erro ao buscar produtos', error: e, stackTrace: s);
@@ -39,5 +38,6 @@ class HomeController extends Cubit<HomeState> {
     } else {
       shoppingBag.add(orderProduct);
     }
+    emit(state.copyWith(shoppingBag: shoppingBag));
   }
 }

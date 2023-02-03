@@ -9,4 +9,6 @@ class OrderProductDto {
     required this.product,
     required this.amount,
   });
+
+  double get totalPrice => amount * product.price;
 }

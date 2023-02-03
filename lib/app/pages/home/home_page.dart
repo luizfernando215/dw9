@@ -24,14 +24,6 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DeliveryAppbar(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // showLoader();
-          // await Future.delayed(const Duration(seconds: 2));
-          // hideLoader();
-          showSuccess('Um erro inesperado ocorreu.');
-        },
-      ),
       body: BlocConsumer<HomeController, HomeState>(
         listener: (context, state) {
           state.status.matchAny(
@@ -66,7 +58,7 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
               ),
               Visibility(
                 visible: state.shoppingBag.isNotEmpty,
-                child: const ShoppingBagWidget(),
+                child: ShoppingBagWidget(bag: state.shoppingBag),
               ),
             ],
           );

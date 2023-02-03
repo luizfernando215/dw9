@@ -1,16 +1,23 @@
+import 'package:dw9_delivery_app/app/core/extensions/formatter_extension.dart';
 import 'package:dw9_delivery_app/app/core/ui/helpers/size_extensions.dart';
 import 'package:dw9_delivery_app/app/core/ui/styles/text_styles.dart';
+import 'package:dw9_delivery_app/app/dto/order_product_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ShoppingBagWidget extends StatelessWidget {
-  const ShoppingBagWidget({Key? key}) : super(key: key);
+  const ShoppingBagWidget({Key? key, required this.bag}) : super(key: key);
+
+  final List<OrderProductDto> bag;
 
   @override
   Widget build(BuildContext context) {
+    var totalBag = bag.fold<double>(0.0, (total, element) => total += element.totalPrice).currencyPTBR;
+
     return Container(
       width: context.screenHeight,
       height: 90,
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -22,7 +29,9 @@ class ShoppingBagWidget extends StatelessWidget {
         ),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          _goOrder(context);
+        },
         child: Stack(
           children: [
             const Align(
@@ -38,9 +47,33 @@ class ShoppingBagWidget extends StatelessWidget {
                 style: context.textStyles.textExtraBold.copyWith(fontSize: 14),
               ),
             ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                totalBag,
+                style: context.textStyles.textExtraBold.copyWith(fontSize: 14),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _goOrder(BuildContext context) async {
+    final navigator = Navigator.of(context);
+    final sp = await SharedPreferences.getInstance();
+
+    if (!sp.containsKey('accessToken')) {
+      //Envio para o login
+      final loginResult = await navigator.pushNamed('/auth/login');
+
+      if (loginResult == null || loginResult == false) {
+        return;
+      }
+    }
+
+    //Envio para o order
+    await navigator.pushNamed('/order', arguments: bag);
   }
 }

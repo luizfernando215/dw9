@@ -7,7 +7,7 @@ import 'package:dw9_delivery_app/app/pages/home/home_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dw9_delivery_app/app/models/product_model.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DeliveryProductTile extends StatelessWidget {
   final ProductModel product;
@@ -28,7 +28,7 @@ class DeliveryProductTile extends StatelessWidget {
           '/productDetail',
           arguments: {
             'product': product,
-            'orderProduct': orderProduct,
+            'order': orderProduct,
           },
         );
 
